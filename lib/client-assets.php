@@ -647,6 +647,19 @@ function gutenberg_extend_settings_block_patterns( $settings ) {
 }
 add_filter( 'block_editor_settings', 'gutenberg_extend_settings_block_patterns', 0 );
 
+/**
+ * Extends block editor settings to determine whether to use custom unit controls.
+ * Currently experimental.
+ *
+ * @param array $settings Default editor settings.
+ *
+ * @return array Filtered editor settings.
+ */
+function gutenberg_extend_settings_custom_units( $settings ) {
+	$settings['__experimentalDisableCustomUnits'] = get_theme_support( 'disable-custom-units' );
+	return $settings;
+}
+add_filter( 'block_editor_settings', 'gutenberg_extend_settings_custom_units' );
 
 /*
  * Register default patterns if not registered in Core already.
