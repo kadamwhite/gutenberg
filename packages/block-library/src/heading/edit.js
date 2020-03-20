@@ -19,22 +19,10 @@ import {
 	BlockControls,
 	InspectorControls,
 	RichText,
-	__experimentalUseColors,
 	__experimentalBlock as Block,
 } from '@wordpress/block-editor';
-import { useRef } from '@wordpress/element';
 
 function HeadingEdit( { attributes, setAttributes, mergeBlocks, onReplace } ) {
-	const ref = useRef();
-	const { TextColor, InspectorControlsColorPanel } = __experimentalUseColors(
-		[ { name: 'textColor', property: 'color' } ],
-		{
-			contrastCheckers: { backgroundColor: true, textColor: true },
-			colorDetector: { targetRef: ref },
-		},
-		[]
-	);
-
 	const { align, content, level, placeholder } = attributes;
 	const tagName = 'h' + level;
 
@@ -70,35 +58,29 @@ function HeadingEdit( { attributes, setAttributes, mergeBlocks, onReplace } ) {
 					/>
 				</PanelBody>
 			</InspectorControls>
-			{ InspectorControlsColorPanel }
-			<TextColor>
-				<RichText
-					ref={ ref }
-					identifier="content"
-					tagName={ Block[ tagName ] }
-					value={ content }
-					onChange={ ( value ) =>
-						setAttributes( { content: value } )
+			<RichText
+				identifier="content"
+				tagName={ Block[ tagName ] }
+				value={ content }
+				onChange={ ( value ) => setAttributes( { content: value } ) }
+				onMerge={ mergeBlocks }
+				onSplit={ ( value ) => {
+					if ( ! value ) {
+						return createBlock( 'core/paragraph' );
 					}
-					onMerge={ mergeBlocks }
-					onSplit={ ( value ) => {
-						if ( ! value ) {
-							return createBlock( 'core/paragraph' );
-						}
 
-						return createBlock( 'core/heading', {
-							...attributes,
-							content: value,
-						} );
-					} }
-					onReplace={ onReplace }
-					onRemove={ () => onReplace( [] ) }
-					className={ classnames( {
-						[ `has-text-align-${ align }` ]: align,
-					} ) }
-					placeholder={ placeholder || __( 'Write heading…' ) }
-				/>
-			</TextColor>
+					return createBlock( 'core/heading', {
+						...attributes,
+						content: value,
+					} );
+				} }
+				onReplace={ onReplace }
+				onRemove={ () => onReplace( [] ) }
+				className={ classnames( {
+					[ `has-text-align-${ align }` ]: align,
+				} ) }
+				placeholder={ placeholder || __( 'Write heading…' ) }
+			/>
 		</>
 	);
 }
