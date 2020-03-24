@@ -139,7 +139,9 @@ function Navigation( {
 	const blockClassNames = classnames( className, {
 		[ `items-justified-${ attributes.itemsJustification }` ]: attributes.itemsJustification,
 		[ fontSize.class ]: fontSize.class,
+		'has-submenu-icon': attributes.showSubmenuIcon,
 	} );
+
 	const blockInlineStyles = {
 		fontSize: fontSize.size ? fontSize.size + 'px' : undefined,
 	};
