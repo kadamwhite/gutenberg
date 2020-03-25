@@ -1,11 +1,11 @@
 /**
  * Clear the a11y-speak-region elements.
  */
-const clear = function() {
-	const regions = document.querySelectorAll( '.a11y-speak-region' );
-	for ( let i = 0; i < regions.length; i++ ) {
-		regions[ i ].textContent = '';
+export default function clear() {
+	const regions = Array.from(
+		document.getElementsByClassName( 'a11y-speak-region' )
+	);
+	for ( const region of regions ) {
+		region.textContent = '';
 	}
-};
-
-export default clear;
+}
