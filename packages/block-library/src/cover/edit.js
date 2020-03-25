@@ -108,7 +108,7 @@ function CoverHeightInput( {
 	const min = isPx ? COVER_MIN_HEIGHT : 0;
 
 	return (
-		<BaseControl label={ __( 'Minimum height of cover' ) } id={ inputId }>
+		<BaseControl label={ __( 'Minimum cover height' ) } id={ inputId }>
 			<UnitControl
 				id={ inputId }
 				min={ min }
