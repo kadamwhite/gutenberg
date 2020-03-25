@@ -19,7 +19,6 @@ import {
 	ResizableBox,
 	ToggleControl,
 	withNotices,
-	__experimentalAlignmentMatrixControl as AlignmentMatrixControl,
 } from '@wordpress/components';
 import { compose, withInstanceId } from '@wordpress/compose';
 import {
@@ -49,6 +48,8 @@ import {
 	COVER_MIN_HEIGHT,
 	backgroundImageStyles,
 	dimRatioToClass,
+	isContentPositionCenter,
+	getPositionClassName,
 } from './shared';
 
 /**
@@ -65,29 +66,6 @@ const INNER_BLOCKS_TEMPLATE = [
 		},
 	],
 ];
-
-const {
-	__getAlignmentFlexProps: getAlignmentFlexProps,
-} = AlignmentMatrixControl;
-
-function getAlignmentFlexStyles( contentPosition ) {
-	const [ alignItems, justifyContent ] = getAlignmentFlexProps(
-		contentPosition
-	);
-
-	return {
-		alignItems,
-		justifyContent,
-	};
-}
-
-function isContentPositionCenter( contentPosition ) {
-	return (
-		! contentPosition ||
-		contentPosition === 'center center' ||
-		contentPosition === 'center'
-	);
-}
 
 function retrieveFastAverageColor() {
 	if ( ! retrieveFastAverageColor.fastAverageColor ) {
@@ -287,7 +265,6 @@ function CoverEdit( {
 			: {} ),
 		backgroundColor: overlayColor.color,
 		minHeight: temporaryMinHeight || minHeight,
-		...getAlignmentFlexStyles( contentPosition ),
 	};
 
 	if ( gradientValue && ! url ) {
@@ -450,15 +427,22 @@ function CoverEdit( {
 		);
 	}
 
-	const classes = classnames( className, dimRatioToClass( dimRatio ), {
-		'is-dark-theme': isDark,
-		'has-background-dim': dimRatio !== 0,
-		'has-parallax': hasParallax,
-		[ overlayColor.class ]: overlayColor.class,
-		'has-background-gradient': gradientValue,
-		[ gradientClass ]: ! url && gradientClass,
-		'has-custom-content-position': isContentPositionCenter(),
-	} );
+	const classes = classnames(
+		className,
+		dimRatioToClass( dimRatio ),
+		{
+			'is-dark-theme': isDark,
+			'has-background-dim': dimRatio !== 0,
+			'has-parallax': hasParallax,
+			[ overlayColor.class ]: overlayColor.class,
+			'has-background-gradient': gradientValue,
+			[ gradientClass ]: ! url && gradientClass,
+			'has-custom-content-position': ! isContentPositionCenter(
+				contentPosition
+			),
+		},
+		getPositionClassName( contentPosition )
+	);
 
 	return (
 		<>
