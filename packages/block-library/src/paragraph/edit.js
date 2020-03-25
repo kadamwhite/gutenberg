@@ -11,15 +11,12 @@ import { PanelBody, ToggleControl, ToolbarGroup } from '@wordpress/components';
 import {
 	AlignmentToolbar,
 	BlockControls,
-	FontSizePicker,
 	InspectorControls,
 	RichText,
-	withFontSizes,
 	__experimentalUseColors,
 	__experimentalBlock as Block,
 } from '@wordpress/block-editor';
 import { createBlock } from '@wordpress/blocks';
-import { compose } from '@wordpress/compose';
 import { useSelect } from '@wordpress/data';
 import { useEffect, useState, useRef } from '@wordpress/element';
 import { formatLtr } from '@wordpress/icons';
@@ -79,7 +76,6 @@ function ParagraphBlock( {
 	mergeBlocks,
 	onReplace,
 	setAttributes,
-	setFontSize,
 } ) {
 	const { align, content, dropCap, placeholder, direction } = attributes;
 
@@ -127,10 +123,6 @@ function ParagraphBlock( {
 			</BlockControls>
 			<InspectorControls>
 				<PanelBody title={ __( 'Text settings' ) }>
-					<FontSizePicker
-						value={ fontSize.size }
-						onChange={ setFontSize }
-					/>
 					<ToggleControl
 						label={ __( 'Drop cap' ) }
 						checked={ !! dropCap }
@@ -203,8 +195,4 @@ function ParagraphBlock( {
 	);
 }
 
-const ParagraphEdit = compose( [ withFontSizes( 'fontSize' ) ] )(
-	ParagraphBlock
-);
-
-export default ParagraphEdit;
+export default ParagraphBlock;
