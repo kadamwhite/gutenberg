@@ -17,5 +17,6 @@ export const settings = {
 	supports: {
 		html: false,
 	},
+	__experimentalLabel: ( { slug } ) => slug,
 	edit,
 };
