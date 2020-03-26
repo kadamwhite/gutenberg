@@ -4,11 +4,6 @@
 import classnames from 'classnames';
 
 /**
- * Internal dependencies
- */
-import HeadingToolbar from './heading-toolbar';
-
-/**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
@@ -21,6 +16,11 @@ import {
 	__experimentalBlock as Block,
 } from '@wordpress/block-editor';
 import { useRef } from '@wordpress/element';
+
+/**
+ * Internal dependencies
+ */
+import HeadingLevelToolbar from './heading-level-toolbar';
 
 function HeadingEdit( { attributes, setAttributes, mergeBlocks, onReplace } ) {
 	const ref = useRef();
@@ -39,9 +39,7 @@ function HeadingEdit( { attributes, setAttributes, mergeBlocks, onReplace } ) {
 	return (
 		<>
 			<BlockControls>
-				<HeadingToolbar
-					minLevel={ 1 }
-					maxLevel={ 7 }
+				<HeadingLevelToolbar
 					selectedLevel={ level }
 					onChange={ ( newLevel ) =>
 						setAttributes( { level: newLevel } )
