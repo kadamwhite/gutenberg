@@ -87,6 +87,7 @@ class BottomSheetCell extends Component {
 			accessibilityHint,
 			accessibilityRole,
 			disabled = false,
+			activeOpacity,
 			onPress,
 			label,
 			value,
@@ -271,6 +272,11 @@ class BottomSheetCell extends Component {
 			this.state.isScreenReaderEnabled && accessible ? 'none' : 'auto';
 		const { title, handler } = customActionButton || {};
 
+		const opacity =
+			activeOpacity !== undefined
+				? activeOpacity
+				: platformStyles.activeOpacity.opacity;
+
 		return (
 			<TouchableOpacity
 				accessible={
@@ -287,7 +293,7 @@ class BottomSheetCell extends Component {
 						: accessibilityHint
 				}
 				disabled={ disabled }
-				activeOpacity={ Number( ! disabled ) }
+				activeOpacity={ opacity }
 				onPress={ onCellPress }
 				style={ [ styles.clipToBounds, style ] }
 			>
